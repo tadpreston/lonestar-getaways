@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google tag (gtag.js) — Lonestar Getaways GA4 property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4DS3H0RL8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L4DS3H0RL8', {
+      // Anonymize the trailing octet of visitor IPs (privacy best practice)
+      anonymize_ip: true
+    });
+  </script>
+
+  <title>Lonestar Getaways — Journeys that last a lifetime</title>
+  <meta name="description" content="Lonestar Getaways — personalized travel planning by Tad Preston, a Texas-based Fora Travel advisor specializing in family travel, cruises, and all-inclusive escapes." />
+  <link rel="icon" type="image/png" href="images/lsg-logo.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: "#B3001B",
+              charcoal: "#262626",
+              blue: "#255C99",
+              sky: "#7EA3CC",
+              sand: "#CCAD8F",
+            },
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "Georgia", "serif"],
+            sans: ["Inter", "system-ui", "sans-serif"],
+          },
+          letterSpacing: {
+            wider2: "0.18em",
+            widest2: "0.28em",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: "Inter", system-ui, sans-serif; color: #262626; }
+    .font-serif { font-family: "Playfair Display", Georgia, serif; }
+
+    /* Hero overlay — keeps text legible over the cruise photo */
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(38, 38, 38, 0.72) 0%, rgba(37, 92, 153, 0.55) 100%);
+    }
+
+    /* Subtle nav shadow when scrolled */
+    .nav-scrolled { box-shadow: 0 2px 24px rgba(0, 0, 0, 0.08); }
+
+    /* Card hover lift */
+    .lift { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease; }
+    .lift:hover { transform: translateY(-6px); box-shadow: 0 22px 44px rgba(0, 0, 0, 0.10); }
+
+    /* Inspiration tile zoom */
+    .insp-tile { position: relative; overflow: hidden; }
+    .insp-tile .insp-img { transition: transform 0.8s ease; }
+    .insp-tile:hover .insp-img { transform: scale(1.08); }
+
+    /* Form focus states */
+    .field {
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
+    .field:focus {
+      outline: none;
+      border-color: #B3001B;
+      box-shadow: 0 0 0 3px rgba(179, 0, 27, 0.18);
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: #B3001B;
+      color: #fff;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+    .btn-primary:hover { background: #8a0014; transform: translateY(-2px); box-shadow: 0 14px 28px rgba(179, 0, 27, 0.32); }
+
+    .btn-outline-light {
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      color: #fff;
+      transition: background-color 0.25s, color 0.25s, transform 0.25s;
+    }
+    .btn-outline-light:hover { background: #fff; color: #262626; transform: translateY(-2px); }
+
+    .btn-outline-dark {
+      border: 2px solid #262626;
+      color: #262626;
+      transition: background-color 0.25s, color 0.25s, transform 0.25s;
+    }
+    .btn-outline-dark:hover { background: #262626; color: #fff; transform: translateY(-2px); }
+
+    .divider { width: 64px; height: 3px; background: #B3001B; margin: 0 auto; border-radius: 2px; }
+
+    /* Lucide icon sizing */
+    [data-lucide] { width: 20px; height: 20px; stroke-width: 2; }
+    .icon-md [data-lucide] { width: 26px; height: 26px; }
+    .icon-lg [data-lucide] { width: 32px; height: 32px; }
+
+    /* Mobile menu */
+    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    #mobile-menu.open { max-height: 520px; }
+
+    /* Scroll-down chevron */
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+    .floaty { animation: floaty 2.2s ease-in-out infinite; }
+
+    /* Reduce font flash */
+    .font-loading body { visibility: hidden; }
+
+    /* Formspree AJAX status displays — only render when populated by the library */
+    [data-fs-success]:empty,
+    [data-fs-error]:empty,
+    [data-fs-error=""]:empty { display: none !important; }
+    [data-fs-field][aria-invalid="true"] { border-color: #B3001B !important; }
+  </style>
+</head>
+
+<body class="antialiased bg-white">
+
+  <!-- ============================== NAV ============================== -->
+  <nav id="nav" class="sticky top-0 z-50 bg-white/95 backdrop-blur transition-shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="#home" class="flex items-center gap-3 shrink-0" aria-label="Lonestar Getaways home">
+          <img src="images/lsg-logo.png" alt="Lonestar Getaways logo" class="h-12 md:h-14 w-auto" />
+        </a>
+
+        <div class="hidden lg:flex items-center gap-9">
+          <a href="#services" class="text-brand-charcoal hover:text-brand-red font-medium transition">What I Plan</a>
+          <a href="#why" class="text-brand-charcoal hover:text-brand-red font-medium transition">Why Book</a>
+          <a href="#inspiration" class="text-brand-charcoal hover:text-brand-red font-medium transition">Inspiration</a>
+          <a href="#about" class="text-brand-charcoal hover:text-brand-red font-medium transition">About</a>
+          <a href="#contact" class="text-brand-charcoal hover:text-brand-red font-medium transition">Contact</a>
+          <a href="#plan" data-cta="nav_plan_trip" class="bg-brand-red text-white px-6 py-2.5 rounded-full font-medium hover:bg-[#8a0014] transition shadow-sm">Plan Your Trip</a>
+        </div>
+
+        <button id="menu-btn" class="lg:hidden p-2 text-brand-charcoal" aria-label="Toggle menu" aria-expanded="false">
+          <i data-lucide="menu" id="menu-icon"></i>
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="lg:hidden">
+        <div class="py-4 flex flex-col gap-1 border-t border-gray-100">
+          <a href="#services" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">What I Plan</a>
+          <a href="#why" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">Why Book</a>
+          <a href="#inspiration" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">Inspiration</a>
+          <a href="#about" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">About</a>
+          <a href="#contact" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">Contact</a>
+          <a href="#plan" data-cta="nav_mobile_plan_trip" class="mt-2 mb-3 bg-brand-red text-white px-5 py-3 rounded-full font-medium text-center">Plan Your Trip</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================== HERO ============================== -->
+  <section id="home" class="relative min-h-[88vh] md:min-h-screen flex items-center justify-center"
+           style="background-image: url('images/cruise-hero.jpg'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 hero-overlay"></div>
+
+    <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto py-24">
+      <p class="text-brand-sky uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-5">Lonestar Getaways · Texas-based · Fora Travel</p>
+      <h1 class="font-serif text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6 tracking-tight">
+        Journeys that<br class="hidden sm:block" /> last a lifetime
+      </h1>
+      <p class="text-base sm:text-lg md:text-xl text-white/90 mb-9 max-w-2xl mx-auto leading-relaxed">
+        Personalized travel planning with insider perks at thousands of hotels, expert itineraries, and a real human in your corner — at no booking fee to you.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#plan" data-cta="hero_start_planning" class="btn-primary px-8 py-4 rounded-full font-semibold inline-flex items-center justify-center gap-2 shadow-lg">
+          Start Planning
+          <i data-lucide="arrow-right"></i>
+        </a>
+        <a href="#services" class="btn-outline-light px-8 py-4 rounded-full font-semibold inline-flex items-center justify-center">
+          Explore Specialties
+        </a>
+      </div>
+    </div>
+
+    <a href="#services" class="absolute bottom-7 left-1/2 -translate-x-1/2 text-white/85 hidden sm:block" aria-label="Scroll down">
+      <i data-lucide="chevron-down" class="floaty"></i>
+    </a>
+  </section>
+
+  <!-- ============================== WHAT I PLAN BEST ============================== -->
+  <section id="services" class="py-20 md:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="text-brand-red uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-3">What I Plan Best</p>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-charcoal mb-5">Specialties built on real experience</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+        <!-- Family Travel -->
+        <div class="lift bg-white border border-gray-100 rounded-2xl p-8 md:p-10 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-red/10 flex items-center justify-center text-brand-red icon-lg">
+            <i data-lucide="users-round"></i>
+          </div>
+          <h3 class="font-serif text-2xl font-bold mb-3">Family Travel</h3>
+          <p class="text-gray-600 leading-relaxed">
+            From first family vacations to multigenerational reunions, I design trips that work for every age — kid-friendly resorts, easy logistics, and memories that bring everyone closer.
+          </p>
+        </div>
+
+        <!-- Cruises -->
+        <div class="lift bg-white border border-gray-100 rounded-2xl p-8 md:p-10 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-blue/10 flex items-center justify-center text-brand-blue icon-lg">
+            <i data-lucide="ship"></i>
+          </div>
+          <h3 class="font-serif text-2xl font-bold mb-3">Cruises</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Caribbean, Mediterranean, Alaska, and beyond. I'll match you to the right ship, cabin, and itinerary — and unlock onboard credits and amenities you can't book on your own.
+          </p>
+        </div>
+
+        <!-- All-Inclusives -->
+        <div class="lift bg-white border border-gray-100 rounded-2xl p-8 md:p-10 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-sand/40 flex items-center justify-center text-[#8a6d4d]">
+            <!-- Inline palm-tree SVG (Lucide removed this name in latest) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 8c0-2.76-2.46-5-5.5-5S2 5.24 2 8h2l1-1 1 1h4"/>
+              <path d="M13 7.14A5.82 5.82 0 0 1 16.5 6c3.04 0 5.5 2.24 5.5 5h-3l-1-1-1 1h-3"/>
+              <path d="M5.89 9.71c-2.15 2.15-2.3 5.47-.35 7.43l4.24-4.25.7-.7.71-.71 2.12-2.12c-1.95-1.96-5.27-1.8-7.42.35z"/>
+              <path d="M11 15.5c.5 2.5-.17 4.5-1 6.5h4c2-5.5-.5-12-1-14"/>
+            </svg>
+          </div>
+          <h3 class="font-serif text-2xl font-bold mb-3">All-Inclusives</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Mexico, the Caribbean, and beyond — adults-only romance, family-friendly fun, or wellness escapes where everything from arrival to departure is taken care of.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== WHY BOOK WITH AN ADVISOR ============================== -->
+  <section id="why" class="py-20 md:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="text-brand-red uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-3">Why Book With an Advisor</p>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-charcoal mb-5">The difference is in the details</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+        <div class="lift bg-white p-7 rounded-2xl">
+          <div class="w-14 h-14 mb-5 rounded-xl bg-brand-red/10 flex items-center justify-center text-brand-red icon-md">
+            <i data-lucide="key-round"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold mb-2">Insider Access</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Exclusive perks at thousands of hotels — upgrades, daily breakfast, resort credits, and early check-in.
+          </p>
+        </div>
+
+        <div class="lift bg-white p-7 rounded-2xl">
+          <div class="w-14 h-14 mb-5 rounded-xl bg-brand-blue/10 flex items-center justify-center text-brand-blue icon-md">
+            <i data-lucide="compass"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold mb-2">Concierge Planning</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Personalized itineraries built around your travel style, pace, and interests — no copy-paste packages.
+          </p>
+        </div>
+
+        <div class="lift bg-white p-7 rounded-2xl">
+          <div class="w-14 h-14 mb-5 rounded-xl bg-brand-sky/30 flex items-center justify-center text-brand-blue icon-md">
+            <i data-lucide="life-buoy"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold mb-2">Real Support</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            A real person to call before, during, and after your trip — for changes, questions, or unexpected surprises.
+          </p>
+        </div>
+
+        <div class="lift bg-white p-7 rounded-2xl">
+          <div class="w-14 h-14 mb-5 rounded-xl bg-brand-sand/40 flex items-center justify-center text-[#8a6d4d] icon-md">
+            <i data-lucide="badge-check"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold mb-2">No Booking Fees</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            My services are complimentary — I'm compensated by the travel suppliers, never by you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== INSPIRATION ============================== -->
+  <section id="inspiration" class="py-20 md:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="text-brand-red uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-3">Inspiration</p>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-charcoal mb-5">Where will you go next?</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Beach & Tropical -->
+        <a href="#plan" class="insp-tile relative h-72 sm:h-80 rounded-2xl overflow-hidden group block">
+          <div class="insp-img absolute inset-0 bg-cover bg-center"
+               style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80');"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10"></div>
+          <div class="relative h-full flex flex-col justify-end p-6 text-white">
+            <p class="text-brand-sky uppercase tracking-widest text-[10px] font-semibold mb-1">Sun &amp; Sand</p>
+            <h3 class="font-serif text-2xl font-bold leading-tight">Beach &amp; Tropical</h3>
+            <p class="text-white/85 text-sm mt-1">Caribbean · Mexico · Hawaii</p>
+          </div>
+        </a>
+
+        <!-- Adventure & National Parks -->
+        <a href="#plan" class="insp-tile relative h-72 sm:h-80 rounded-2xl overflow-hidden group block">
+          <div class="insp-img absolute inset-0 bg-cover bg-center"
+               style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80');"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10"></div>
+          <div class="relative h-full flex flex-col justify-end p-6 text-white">
+            <p class="text-brand-sky uppercase tracking-widest text-[10px] font-semibold mb-1">Wide Open Spaces</p>
+            <h3 class="font-serif text-2xl font-bold leading-tight">Adventure &amp; Parks</h3>
+            <p class="text-white/85 text-sm mt-1">Safaris · National Parks · Patagonia</p>
+          </div>
+        </a>
+
+        <!-- Europe -->
+        <a href="#plan" class="insp-tile relative h-72 sm:h-80 rounded-2xl overflow-hidden group block">
+          <div class="insp-img absolute inset-0 bg-cover bg-center"
+               style="background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=900&q=80');"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10"></div>
+          <div class="relative h-full flex flex-col justify-end p-6 text-white">
+            <p class="text-brand-sky uppercase tracking-widest text-[10px] font-semibold mb-1">Old World Charm</p>
+            <h3 class="font-serif text-2xl font-bold leading-tight">Europe</h3>
+            <p class="text-white/85 text-sm mt-1">Italy · France · Greece · UK</p>
+          </div>
+        </a>
+
+        <!-- Cruise -->
+        <a href="#plan" class="insp-tile relative h-72 sm:h-80 rounded-2xl overflow-hidden group block">
+          <div class="insp-img absolute inset-0 bg-cover bg-center"
+               style="background-image: url('images/cruise-hero.jpg');"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10"></div>
+          <div class="relative h-full flex flex-col justify-end p-6 text-white">
+            <p class="text-brand-sky uppercase tracking-widest text-[10px] font-semibold mb-1">All Aboard</p>
+            <h3 class="font-serif text-2xl font-bold leading-tight">Cruises</h3>
+            <p class="text-white/85 text-sm mt-1">Caribbean · Mediterranean · Alaska</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== PLAN YOUR TRIP / INTAKE FORM ============================== -->
+  <section id="plan" class="py-20 md:py-28 bg-brand-charcoal text-white relative overflow-hidden">
+    <!-- decorative shape -->
+    <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-brand-blue/15 blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-brand-red/10 blur-3xl pointer-events-none"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <p class="text-brand-sky uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-3">Plan Your Trip</p>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Let's start the journey</h2>
+        <div class="w-16 h-0.5 bg-brand-red mx-auto mb-5"></div>
+        <p class="text-white/75 max-w-xl mx-auto">
+          Tell me a little about your dream trip and I'll be in touch within one business day. No commitment, no booking fees.
+        </p>
+      </div>
+
+      <form id="intake-form"
+            action="https://formspree.io/f/mzdynvrk"
+            method="POST"
+            class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8 md:p-10">
+        <!-- Formspree special fields: customize the email subject and reply-to -->
+        <input type="hidden" name="_subject" value="New trip inquiry — Lonestar Getaways" />
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+               style="position:absolute;left:-9999px" aria-hidden="true" />
+
+        <div class="grid sm:grid-cols-2 gap-5 sm:gap-6">
+          <div>
+            <label for="f-name" class="block text-sm font-medium mb-2">Full name <span class="text-brand-red">*</span></label>
+            <input id="f-name" name="name" type="text" required
+                   data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50" placeholder="Jane Doe" />
+            <span data-fs-error="name" class="block mt-1.5 text-xs text-red-300"></span>
+          </div>
+          <div>
+            <label for="f-email" class="block text-sm font-medium mb-2">Email <span class="text-brand-red">*</span></label>
+            <input id="f-email" name="email" type="email" required
+                   data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50" placeholder="you@example.com" />
+            <span data-fs-error="email" class="block mt-1.5 text-xs text-red-300"></span>
+          </div>
+          <div>
+            <label for="f-phone" class="block text-sm font-medium mb-2">Phone</label>
+            <input id="f-phone" name="phone" type="tel"
+                   data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50" placeholder="(972) 555-0123" />
+          </div>
+          <div>
+            <label for="f-destination" class="block text-sm font-medium mb-2">Destination(s)</label>
+            <input id="f-destination" name="destination" type="text"
+                   data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50" placeholder="e.g. Italy, Caribbean cruise, undecided" />
+          </div>
+          <div>
+            <label for="f-dates" class="block text-sm font-medium mb-2">Travel dates</label>
+            <input id="f-dates" name="dates" type="text"
+                   data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50" placeholder="e.g. May 12–22, 2026 or flexible" />
+          </div>
+          <div>
+            <label for="f-travelers" class="block text-sm font-medium mb-2"># of travelers</label>
+            <input id="f-travelers" name="travelers" type="number" min="1"
+                   data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50" placeholder="2" />
+          </div>
+          <div>
+            <label for="f-budget" class="block text-sm font-medium mb-2">Budget range</label>
+            <select id="f-budget" name="budget"
+                    data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white">
+              <option class="text-brand-charcoal" value="">Select a range</option>
+              <option class="text-brand-charcoal">Under $5,000</option>
+              <option class="text-brand-charcoal">$5,000 – $10,000</option>
+              <option class="text-brand-charcoal">$10,000 – $20,000</option>
+              <option class="text-brand-charcoal">$20,000 – $40,000</option>
+              <option class="text-brand-charcoal">$40,000+</option>
+              <option class="text-brand-charcoal">Not sure yet</option>
+            </select>
+          </div>
+          <div>
+            <label for="f-type" class="block text-sm font-medium mb-2">Trip type</label>
+            <select id="f-type" name="trip_type"
+                    data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white">
+              <option class="text-brand-charcoal" value="">Select a type</option>
+              <option class="text-brand-charcoal">Family vacation</option>
+              <option class="text-brand-charcoal">Cruise</option>
+              <option class="text-brand-charcoal">All-inclusive resort</option>
+              <option class="text-brand-charcoal">Romantic getaway / honeymoon</option>
+              <option class="text-brand-charcoal">Adventure / national parks</option>
+              <option class="text-brand-charcoal">Europe / culture</option>
+              <option class="text-brand-charcoal">Other</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="f-notes" class="block text-sm font-medium mb-2">Tell me more</label>
+            <textarea id="f-notes" name="notes" rows="4"
+                      data-fs-field class="field w-full bg-white/8 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50"
+                      placeholder="Special occasions, must-haves, travel style, anything else I should know..."></textarea>
+          </div>
+        </div>
+
+        <!-- Formspree form-level status messages (populated by @formspree/ajax) -->
+        <div data-fs-success
+             role="status"
+             aria-live="polite"
+             class="mt-6 p-4 rounded-lg bg-emerald-500/15 border border-emerald-400/30 text-emerald-100 text-sm"></div>
+        <div data-fs-error
+             role="alert"
+             aria-live="assertive"
+             class="mt-6 p-4 rounded-lg bg-red-500/15 border border-red-400/30 text-red-100 text-sm"></div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-7">
+          <p class="text-xs text-white/55">By submitting, you agree to be contacted by Lonestar Getaways about your trip. Your info is never sold.</p>
+          <button type="submit"
+                  data-fs-submit-btn
+                  class="btn-primary px-8 py-3.5 rounded-full font-semibold inline-flex items-center justify-center gap-2 shrink-0 disabled:opacity-60 disabled:cursor-not-allowed">
+            <span class="fs-btn-label">Send Inquiry</span>
+            <i data-lucide="send"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================== ABOUT ============================== -->
+  <section id="about" class="py-20 md:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <!-- Portrait -->
+        <div class="order-2 md:order-1">
+          <div class="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-xl">
+            <img src="images/tad.jpg"
+                 alt="Tad Preston, founder of Lonestar Getaways, photographed in port in front of the MSC Seascape"
+                 loading="lazy"
+                 class="absolute inset-0 w-full h-full object-cover" />
+            <!-- Subtle brand accent corner -->
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-brand-red/90 rounded-2xl -z-10 hidden md:block"></div>
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="order-1 md:order-2">
+          <p class="text-brand-red uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-3">About</p>
+          <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight">Hi, I'm Tad Preston.</h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            I'm the founder of Lonestar Getaways and a proud advisor with <a href="https://www.foratravel.com/advisor/tad-preston" target="_blank" rel="noopener" class="text-brand-blue font-medium hover:text-brand-red underline-offset-4 hover:underline">Fora Travel</a>. From my home base in Texas, I help busy travelers plan trips that feel effortless from the first email to the final flight home.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            My specialties are family travel, cruises, and all-inclusive resorts — but my favorite trips are the ones built around the people taking them. I take time to understand how you travel, what matters most, and where you really want to spend your time once you arrive.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-8">
+            Through Fora's partnerships, I can offer perks and pricing you won't find on your own — at thousands of hotels, on every major cruise line, and across the world's top all-inclusive brands. Best of all, my planning services are complimentary.
+          </p>
+
+          <!-- credentials strip -->
+          <div class="flex flex-wrap items-center gap-x-8 gap-y-3 mb-8 text-sm">
+            <div class="flex items-center gap-2 text-brand-charcoal">
+              <i data-lucide="map-pin" class="text-brand-red"></i>
+              <span class="font-medium">Texas-based</span>
+            </div>
+            <div class="flex items-center gap-2 text-brand-charcoal">
+              <i data-lucide="briefcase" class="text-brand-red"></i>
+              <span class="font-medium">Fora Travel Advisor</span>
+            </div>
+            <div class="flex items-center gap-2 text-brand-charcoal">
+              <i data-lucide="globe-2" class="text-brand-red"></i>
+              <span class="font-medium">Worldwide planning</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="https://www.foratravel.com/advisor/tad-preston" target="_blank" rel="noopener"
+               class="btn-outline-dark px-6 py-3 rounded-full font-semibold inline-flex items-center justify-center gap-2">
+              View My Fora Profile <i data-lucide="external-link"></i>
+            </a>
+            <a href="#plan" data-cta="about_plan_trip" class="btn-primary px-6 py-3 rounded-full font-semibold inline-flex items-center justify-center gap-2">
+              Plan Your Trip <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CONTACT FOOTER ============================== -->
+  <footer id="contact" class="bg-brand-charcoal text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+        <!-- Brand -->
+        <div class="md:col-span-5">
+          <div class="bg-white inline-block rounded-xl p-3 mb-5">
+            <img src="images/lsg-logo.png" alt="Lonestar Getaways logo" class="h-12 w-auto" />
+          </div>
+          <p class="text-white/75 leading-relaxed max-w-md">
+            Lonestar Getaways is a Texas-based travel advisory affiliated with Fora Travel. We design personalized trips that last a lifetime — at no booking fee to you.
+          </p>
+          <p class="text-brand-sky italic mt-4 font-serif">"Journeys that last a lifetime"</p>
+        </div>
+
+        <!-- Contact -->
+        <div class="md:col-span-4">
+          <h4 class="font-serif text-lg font-semibold mb-5">Get in Touch</h4>
+          <ul class="space-y-3 text-white/85">
+            <li class="flex items-start gap-3">
+              <i data-lucide="mail" class="text-brand-sky mt-0.5 shrink-0"></i>
+              <a href="mailto:tad.preston@fora.travel" class="hover:text-white transition">tad.preston@fora.travel</a>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="phone" class="text-brand-sky mt-0.5 shrink-0"></i>
+              <a href="tel:+19728326284" class="hover:text-white transition">(972) 832-6284</a>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="user-round" class="text-brand-sky mt-0.5 shrink-0"></i>
+              <span>Tad Preston, Founder</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="briefcase" class="text-brand-sky mt-0.5 shrink-0"></i>
+              <span>Affiliated with Fora Travel</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Connect -->
+        <div class="md:col-span-3">
+          <h4 class="font-serif text-lg font-semibold mb-5">Follow Along</h4>
+          <div class="flex items-center gap-3 mb-6">
+            <a href="https://facebook.com/lonestargetaways" target="_blank" rel="noopener"
+               class="w-11 h-11 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition" aria-label="Facebook">
+              <!-- Inline Facebook SVG (Lucide deprecated brand icons) -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+            </a>
+            <a href="https://instagram.com/lonestar.getaways" target="_blank" rel="noopener"
+               class="w-11 h-11 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition" aria-label="Instagram">
+              <!-- Inline Instagram SVG (Lucide deprecated brand icons) -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="https://www.foratravel.com/advisor/tad-preston" target="_blank" rel="noopener"
+               class="w-11 h-11 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition" aria-label="Fora profile">
+              <i data-lucide="globe-2"></i>
+            </a>
+          </div>
+          <a href="#plan" data-cta="footer_plan_trip" class="btn-primary px-5 py-3 rounded-full font-semibold inline-flex items-center justify-center gap-2 text-sm">
+            Plan Your Trip <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="pt-7 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/55">
+        <p>&copy; <span id="year"></span> Lonestar Getaways. All rights reserved.</p>
+        <p>Travel services provided through Fora Travel, a registered seller of travel.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================== LUCIDE + SCRIPTS ============================== -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    // Render Lucide icons
+    if (window.lucide) lucide.createIcons();
+
+    // Year stamp
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const menuIcon = document.getElementById("menu-icon");
+    menuBtn.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      menuIcon.setAttribute("data-lucide", isOpen ? "x" : "menu");
+      lucide.createIcons();
+    });
+
+    // Close mobile menu when a link is clicked
+    mobileMenu.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuIcon.setAttribute("data-lucide", "menu");
+        lucide.createIcons();
+      });
+    });
+
+    // Add subtle shadow to nav once scrolled
+    const nav = document.getElementById("nav");
+    const onScroll = () => {
+      if (window.scrollY > 8) nav.classList.add("nav-scrolled");
+      else nav.classList.remove("nav-scrolled");
+    };
+    document.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Intake form is wired to Formspree via @formspree/ajax (loaded below).
+    // The library reads our data-fs-* attributes and:
+    //   - Submits the form via fetch (no page reload)
+    //   - Disables the submit button during send
+    //   - Populates [data-fs-success] / [data-fs-error] with status messages
+    //   - Sets aria-invalid + per-field [data-fs-error="name"] messages on validation errors
+
+    // ===== Google Analytics 4 — custom event tracking =====
+    // Safe wrapper so missing/blocked gtag never throws.
+    function track(eventName, params) {
+      try {
+        if (typeof gtag === "function") gtag("event", eventName, params || {});
+      } catch (e) { /* swallow — analytics must never break UX */ }
+    }
+
+    // 1) cta_click — fires whenever a tagged Plan-Your-Trip / Start-Planning button is clicked
+    document.querySelectorAll("[data-cta]").forEach((el) => {
+      el.addEventListener("click", () => {
+        track("cta_click", {
+          cta_id: el.dataset.cta,
+          link_text: (el.textContent || "").trim().slice(0, 80),
+          link_url: el.getAttribute("href") || ""
+        });
+      });
+    });
+
+    // 2) generate_lead — fires when Formspree confirms a successful submission.
+    // The @formspree/ajax library populates [data-fs-success] with text on success;
+    // we observe content changes rather than rely on undocumented library callbacks.
+    const fsSuccess = document.querySelector("[data-fs-success]");
+    if (fsSuccess) {
+      let leadFired = false;
+      new MutationObserver(() => {
+        if (!leadFired && fsSuccess.textContent.trim().length > 0) {
+          leadFired = true;
+          track("generate_lead", {
+            form_id: "mzdynvrk",
+            form_destination: "formspree",
+            currency: "USD",
+            value: 1
+          });
+        }
+      }).observe(fsSuccess, { childList: true, subtree: true, characterData: true });
+    }
+  </script>
+
+  <!-- Formspree AJAX (Vanilla JS guide) -->
+  <script>
+    // Stub the global queue so we can call formspree() before the SDK script finishes loading.
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#intake-form', formId: 'mzdynvrk' });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
