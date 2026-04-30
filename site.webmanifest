@@ -1,0 +1,21 @@
+{
+  "name": "Lonestar Getaways",
+  "short_name": "Lonestar",
+  "description": "Personalized travel planning by Tad Preston, a Texas-based Fora Travel advisor.",
+  "icons": [
+    {
+      "src": "images/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#B3001B",
+  "background_color": "#ffffff",
+  "display": "browser",
+  "start_url": "./"
+}

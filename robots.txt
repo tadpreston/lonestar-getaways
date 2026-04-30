@@ -1,0 +1,7 @@
+# Lonestar Getaways — robots.txt
+# Allow all crawlers full access; point them at the sitemap.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://tadpreston.com/sitemap.xml
