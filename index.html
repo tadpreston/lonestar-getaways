@@ -18,7 +18,68 @@
 
   <title>Lonestar Getaways — Journeys that last a lifetime</title>
   <meta name="description" content="Lonestar Getaways — personalized travel planning by Tad Preston, a Texas-based Fora Travel advisor specializing in family travel, cruises, and all-inclusive escapes." />
+  <meta name="author" content="Tad Preston" />
+  <meta name="theme-color" content="#B3001B" />
   <link rel="icon" type="image/png" href="images/lsg-logo.png" />
+
+  <!--
+    Canonical URL & social-share tags.
+    AFTER YOU DEPLOY, replace the SITE_URL placeholder below with your live URL,
+    e.g. https://tadpreston.github.io/lonestar-getaways  or  https://lonestargetaways.com
+    Find/replace https://tadpreston.com with that exact URL (no trailing slash).
+  -->
+  <link rel="canonical" href="https://tadpreston.com/" />
+
+  <!-- Open Graph (Facebook, LinkedIn, iMessage, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Lonestar Getaways" />
+  <meta property="og:title" content="Lonestar Getaways — Journeys that last a lifetime" />
+  <meta property="og:description" content="Personalized travel planning from a Texas-based Fora Travel advisor — handcrafted itineraries, insider perks, and zero booking fees." />
+  <meta property="og:url" content="https://tadpreston.com/" />
+  <meta property="og:image" content="https://tadpreston.com/images/cruise-hero.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="A cruise ship at a tropical port lined with palm trees." />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Lonestar Getaways — Journeys that last a lifetime" />
+  <meta name="twitter:description" content="Personalized travel planning from a Texas-based Fora Travel advisor — handcrafted itineraries, insider perks, and zero booking fees." />
+  <meta name="twitter:image" content="https://tadpreston.com/images/cruise-hero.jpg" />
+  <meta name="twitter:image:alt" content="A cruise ship at a tropical port lined with palm trees." />
+
+  <!-- Structured data: TravelAgency schema for Google rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Lonestar Getaways",
+    "description": "Texas-based travel advisory specializing in family travel, cruises, and all-inclusive resorts. Affiliated with Fora Travel.",
+    "url": "https://tadpreston.com/",
+    "logo": "https://tadpreston.com/images/lsg-logo.png",
+    "image": "https://tadpreston.com/images/cruise-hero.jpg",
+    "slogan": "Journeys that last a lifetime",
+    "telephone": "+1-972-832-6284",
+    "email": "tad.preston@fora.travel",
+    "founder": {
+      "@type": "Person",
+      "name": "Tad Preston"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "TX",
+      "addressCountry": "US"
+    },
+    "areaServed": "Worldwide",
+    "priceRange": "$$$",
+    "sameAs": [
+      "https://facebook.com/lonestargetaways",
+      "https://instagram.com/lonestar.getaways",
+      "https://www.foratravel.com/advisor/tad-preston"
+    ]
+  }
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -75,15 +136,33 @@
     .insp-tile .insp-img { transition: transform 0.8s ease; }
     .insp-tile:hover .insp-img { transform: scale(1.08); }
 
-    /* Form focus states */
+    /* Form fields — base + focus states */
     .field {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
       transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
     }
+    .field::placeholder { color: rgba(255, 255, 255, 0.5); }
     .field:focus {
       outline: none;
       border-color: #B3001B;
       box-shadow: 0 0 0 3px rgba(179, 0, 27, 0.18);
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Override Chrome / Safari autofill so dark-themed fields stay readable.
+       Browsers won't allow background-color to be changed on autofilled inputs,
+       so we fake a dark background with an inset box-shadow and force the
+       text-fill-color to white. The huge transition delay prevents the brief
+       yellow flash that Chrome shows during the autofill animation. */
+    .field:-webkit-autofill,
+    .field:-webkit-autofill:hover,
+    .field:-webkit-autofill:focus,
+    .field:-webkit-autofill:active {
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0 1000px #2f2f2f inset !important;
+      caret-color: #ffffff !important;
+      transition: background-color 5000s ease-in-out 0s;
     }
 
     /* Buttons */
@@ -388,8 +467,22 @@
             class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8 md:p-10">
         <!-- Formspree special fields: customize the email subject and reply-to -->
         <input type="hidden" name="_subject" value="New trip inquiry — Lonestar Getaways" />
-        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
-               style="position:absolute;left:-9999px" aria-hidden="true" />
+
+        <!--
+          Honeypot anti-spam field. Hidden from humans (display:none, aria-hidden,
+          off-screen position fallback) and ignored by reasonable autofill engines
+          (innocuous-looking name + autocomplete=off + tabindex=-1). Bots that fill
+          every visible input will trip it; Formspree silently drops those submissions.
+
+          IMPORTANT: We intentionally do NOT use display:none alone — some
+          aggressive password managers fill display:none fields too. The combination
+          of off-screen positioning + a label that looks pointless to ML autofillers
+          is more reliable than any single technique.
+        -->
+        <div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;">
+          <label for="lsg-website-url">If you are a human, leave this field blank:</label>
+          <input id="lsg-website-url" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+        </div>
 
         <div class="grid sm:grid-cols-2 gap-5 sm:gap-6">
           <div>
@@ -459,7 +552,7 @@
           </div>
         </div>
 
-        <!-- Formspree form-level status messages (populated by @formspree/ajax) -->
+        <!-- Form-level status messages (populated by the fetch handler at the bottom of the page) -->
         <div data-fs-success
              role="status"
              aria-live="polite"
@@ -657,13 +750,6 @@
     document.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
 
-    // Intake form is wired to Formspree via @formspree/ajax (loaded below).
-    // The library reads our data-fs-* attributes and:
-    //   - Submits the form via fetch (no page reload)
-    //   - Disables the submit button during send
-    //   - Populates [data-fs-success] / [data-fs-error] with status messages
-    //   - Sets aria-invalid + per-field [data-fs-error="name"] messages on validation errors
-
     // ===== Google Analytics 4 — custom event tracking =====
     // Safe wrapper so missing/blocked gtag never throws.
     function track(eventName, params) {
@@ -672,7 +758,7 @@
       } catch (e) { /* swallow — analytics must never break UX */ }
     }
 
-    // 1) cta_click — fires whenever a tagged Plan-Your-Trip / Start-Planning button is clicked
+    // cta_click — fires whenever a tagged Plan-Your-Trip / Start-Planning button is clicked
     document.querySelectorAll("[data-cta]").forEach((el) => {
       el.addEventListener("click", () => {
         track("cta_click", {
@@ -683,32 +769,85 @@
       });
     });
 
-    // 2) generate_lead — fires when Formspree confirms a successful submission.
-    // The @formspree/ajax library populates [data-fs-success] with text on success;
-    // we observe content changes rather than rely on undocumented library callbacks.
-    const fsSuccess = document.querySelector("[data-fs-success]");
-    if (fsSuccess) {
-      let leadFired = false;
-      new MutationObserver(() => {
-        if (!leadFired && fsSuccess.textContent.trim().length > 0) {
-          leadFired = true;
-          track("generate_lead", {
-            form_id: "mzdynvrk",
-            form_destination: "formspree",
-            currency: "USD",
-            value: 1
-          });
-        }
-      }).observe(fsSuccess, { childList: true, subtree: true, characterData: true });
-    }
-  </script>
+    // ===== Intake form: native fetch handler talking directly to Formspree =====
+    // Replaces the @formspree/ajax library so we have explicit control over success
+    // and error UI, and so submission failures (network, CORS, validation) become
+    // visible instead of silently appearing to succeed.
+    (function () {
+      const form = document.getElementById("intake-form");
+      if (!form) return;
 
-  <!-- Formspree AJAX (Vanilla JS guide) -->
-  <script>
-    // Stub the global queue so we can call formspree() before the SDK script finishes loading.
-    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-    formspree('initForm', { formElement: '#intake-form', formId: 'mzdynvrk' });
+      const successEl = form.querySelector("[data-fs-success]");
+      const errorEl   = form.querySelector("[data-fs-error]");
+      const submitBtn = form.querySelector("[data-fs-submit-btn]");
+      const btnLabel  = submitBtn ? submitBtn.querySelector(".fs-btn-label") : null;
+      const originalLabel = btnLabel ? btnLabel.textContent : "Send Inquiry";
+
+      function showSuccess(msg) {
+        if (errorEl)   errorEl.textContent   = "";
+        if (successEl) successEl.textContent = msg;
+      }
+      function showError(msg) {
+        if (successEl) successEl.textContent = "";
+        if (errorEl)   errorEl.textContent   = msg;
+      }
+      function setSending(isSending) {
+        if (!submitBtn) return;
+        submitBtn.disabled = isSending;
+        if (btnLabel) btnLabel.textContent = isSending ? "Sending…" : originalLabel;
+      }
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        showSuccess(""); showError("");
+        setSending(true);
+
+        try {
+          const res = await fetch(form.action, {
+            method: form.method || "POST",
+            body: new FormData(form),
+            headers: { "Accept": "application/json" }
+          });
+
+          if (res.ok) {
+            showSuccess("Thanks! Your inquiry was received — I'll be in touch within one business day.");
+            form.reset();
+            track("generate_lead", {
+              form_id: "mzdynvrk",
+              form_destination: "formspree",
+              currency: "USD",
+              value: 1
+            });
+            // Smoothly bring the success message into view
+            if (successEl && successEl.scrollIntoView) {
+              successEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          } else {
+            // Try to extract Formspree's specific error messages
+            let detail = "";
+            try {
+              const data = await res.json();
+              if (Array.isArray(data.errors) && data.errors.length) {
+                detail = data.errors.map(function (e) { return e.message; }).join(", ");
+              }
+            } catch (_) { /* response wasn't JSON */ }
+
+            showError(
+              detail ||
+              "Sorry — there was a problem sending your inquiry (status " + res.status +
+              "). Please try again, or email tad.preston@fora.travel directly."
+            );
+          }
+        } catch (err) {
+          showError(
+            "Network error — your inquiry didn't reach us. Please check your connection " +
+            "and try again, or email tad.preston@fora.travel directly."
+          );
+        } finally {
+          setSending(false);
+        }
+      });
+    })();
   </script>
-  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
