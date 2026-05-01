@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Cruises — Lonestar Getaways</title>
+  <meta name="description" content="Find the perfect cruise with Lonestar Getaways — expert guidance across every cruise line from budget-friendly to ultra-luxury, with exclusive Virtuoso perks." />
+  <meta name="author" content="Tad Preston" />
+  <meta name="theme-color" content="#B3001B" />
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="canonical" href="https://tadpreston.com/cruises.html" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red:     "#B3001B",
+              charcoal:"#262626",
+              blue:    "#255C99",
+              sky:     "#7EA3CC",
+              sand:    "#CCAD8F",
+            },
+          },
+          fontFamily: {
+            serif: ["Playfair Display", "Georgia", "serif"],
+            sans:  ["Inter", "system-ui", "sans-serif"],
+          },
+          letterSpacing: {
+            wider2:  "0.18em",
+            widest2: "0.28em",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: "Inter", system-ui, sans-serif; color: #262626; }
+    .font-serif { font-family: "Playfair Display", Georgia, serif; }
+
+    .nav-scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.08); }
+
+    .lift { transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease; }
+    .lift:hover { transform: translateY(-6px); box-shadow: 0 22px 44px rgba(0,0,0,0.10); }
+
+    .btn-primary {
+      background: #B3001B; color: #fff;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+    .btn-primary:hover { background: #8a0014; transform: translateY(-2px); box-shadow: 0 14px 28px rgba(179,0,27,0.32); }
+
+    .btn-outline-dark {
+      border: 2px solid #262626; color: #262626;
+      transition: background-color 0.25s, color 0.25s, transform 0.25s;
+    }
+    .btn-outline-dark:hover { background: #262626; color: #fff; transform: translateY(-2px); }
+
+    .divider { width: 64px; height: 3px; background: #B3001B; margin: 0 auto; border-radius: 2px; }
+
+    [data-lucide] { width: 20px; height: 20px; stroke-width: 2; }
+    .icon-md [data-lucide] { width: 26px; height: 26px; }
+    .icon-lg [data-lucide] { width: 32px; height: 32px; }
+
+    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    #mobile-menu.open { max-height: 520px; }
+
+    /* Hero overlay */
+    .page-hero {
+      background: linear-gradient(135deg, rgba(38,38,38,0.80) 0%, rgba(37,92,153,0.60) 100%);
+    }
+
+    /* Tier badge colors */
+    .tier-budget    { background: #B71C1C; }
+    .tier-mainstream{ background: #1565C0; }
+    .tier-premium   { background: #2E7D32; }
+    .tier-upper     { background: #6A1B9A; }
+    .tier-ultra     { background: #E65100; }
+
+    /* Cruise line card */
+    .cruise-card {
+      border-left: 4px solid transparent;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .cruise-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.09); }
+    .cruise-card.budget-card     { border-left-color: #B71C1C; }
+    .cruise-card.mainstream-card { border-left-color: #1565C0; }
+    .cruise-card.premium-card    { border-left-color: #2E7D32; }
+    .cruise-card.upper-card      { border-left-color: #6A1B9A; }
+    .cruise-card.ultra-card      { border-left-color: #E65100; }
+
+    /* Virtuoso badge */
+    .virtuoso-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #f0f6ff; color: #255C99;
+      border: 1px solid #c3d9f5;
+      border-radius: 999px; padding: 3px 10px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+
+<body class="antialiased bg-white">
+
+  <!-- ============================== NAV ============================== -->
+  <nav id="nav" class="sticky top-0 z-50 bg-white/95 backdrop-blur transition-shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="index.html" class="flex items-center gap-3 shrink-0" aria-label="Lonestar Getaways home">
+          <img src="images/lsg-logo.png" alt="Lonestar Getaways logo" class="h-12 md:h-14 w-auto" />
+        </a>
+
+        <div class="hidden lg:flex items-center gap-9">
+          <a href="index.html#services" class="text-brand-charcoal hover:text-brand-red font-medium transition">What I Plan</a>
+          <a href="index.html#why" class="text-brand-charcoal hover:text-brand-red font-medium transition">Why Book</a>
+          <a href="index.html#inspiration" class="text-brand-charcoal hover:text-brand-red font-medium transition">Inspiration</a>
+          <a href="index.html#about" class="text-brand-charcoal hover:text-brand-red font-medium transition">About</a>
+          <a href="index.html#contact" class="text-brand-charcoal hover:text-brand-red font-medium transition">Contact</a>
+          <a href="index.html#plan" class="bg-brand-red text-white px-6 py-2.5 rounded-full font-medium hover:bg-[#8a0014] transition shadow-sm">Plan Your Trip</a>
+        </div>
+
+        <button id="menu-btn" class="lg:hidden p-2 text-brand-charcoal" aria-label="Toggle menu" aria-expanded="false">
+          <i data-lucide="menu" id="menu-icon"></i>
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="lg:hidden">
+        <div class="py-4 flex flex-col gap-1 border-t border-gray-100">
+          <a href="index.html#services" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">What I Plan</a>
+          <a href="index.html#why" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">Why Book</a>
+          <a href="index.html#inspiration" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">Inspiration</a>
+          <a href="index.html#about" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">About</a>
+          <a href="index.html#contact" class="px-2 py-3 text-brand-charcoal hover:text-brand-red font-medium">Contact</a>
+          <a href="index.html#plan" class="mt-2 mb-3 bg-brand-red text-white px-5 py-3 rounded-full font-medium text-center">Plan Your Trip</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================== PAGE HERO ============================== -->
+  <section class="relative min-h-[420px] md:min-h-[500px] flex items-center justify-center text-center overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: url('images/cruise-hero.jpg');"></div>
+    <div class="page-hero absolute inset-0"></div>
+    <div class="relative z-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      <p class="text-brand-sky uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-4">Lonestar Getaways</p>
+      <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight mb-6">
+        Cruise with Confidence
+      </h1>
+      <p class="text-white/90 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8">
+        From Caribbean getaways to world voyages, I'll match you to the right ship, cabin, and itinerary — with exclusive perks you won't find booking on your own.
+      </p>
+      <a href="index.html#plan" class="btn-primary px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2 shadow-lg">
+        Plan Your Cruise <i data-lucide="arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================== WHY BOOK A CRUISE WITH A TRAVEL ADVISOR ============================== -->
+  <section class="py-20 md:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <p class="text-brand-red uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-3">The Advisor Advantage</p>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-charcoal mb-5">Why book a cruise with a travel advisor?</h2>
+        <div class="divider"></div>
+        <p class="mt-6 text-gray-600 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+          Booking a cruise on your own means leaving real value on the table. Here's what you get when you book through Lonestar Getaways.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Perk 1 -->
+        <div class="lift bg-white border border-gray-100 rounded-2xl p-8 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-blue/10 flex items-center justify-center text-brand-blue icon-lg">
+            <i data-lucide="gift"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold mb-3 text-brand-charcoal">Exclusive Perks</h3>
+          <p class="text-gray-600 leading-relaxed text-sm">
+            Onboard credits, specialty dining, spa vouchers, and cabin upgrades that are simply not available when you book directly — on many of the world's top cruise lines.
+          </p>
+        </div>
+
+        <!-- Perk 2 -->
+        <div class="lift bg-white border border-gray-100 rounded-2xl p-8 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-red/10 flex items-center justify-center text-brand-red icon-lg">
+            <i data-lucide="tag"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold mb-3 text-brand-charcoal">Best Pricing Available</h3>
+          <p class="text-gray-600 leading-relaxed text-sm">
+            I have access to the same fares you see online — and I monitor prices after you book. If a better deal comes along before you sail, I'll get it for you.
+          </p>
+        </div>
+
+        <!-- Perk 3 -->
+        <div class="lift bg-white border border-gray-100 rounded-2xl p-8 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-[#2E7D32]/10 flex items-center justify-center text-[#2E7D32] icon-lg">
+            <i data-lucide="key-round"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold mb-3 text-brand-charcoal">Hidden Cabin Access</h3>
+          <p class="text-gray-600 leading-relaxed text-sm">
+            Some cabin categories and group inventory never appear on the public website. I can access staterooms and pricing that the average traveler can't see or book.
+          </p>
+        </div>
+
+        <!-- Perk 4 -->
+        <div class="lift bg-white border border-gray-100 rounded-2xl p-8 text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-sand/40 flex items-center justify-center text-[#8a6d4d] icon-lg">
+            <i data-lucide="headphones"></i>
+          </div>
+          <h3 class="font-serif text-xl font-bold mb-3 text-brand-charcoal">Concierge Service</h3>
+          <p class="text-gray-600 leading-relaxed text-sm">
+            From first inquiry to the day you return home, I'm your single point of contact. Shore excursions, dining reservations, travel insurance, airport transfers — I handle the details.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CRUISE LINES ============================== -->
+  <section class="py-20 md:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-14">
+        <p class="text-brand-red uppercase tracking-widest2 text-xs sm:text-sm font-semibold mb-3">Cruise Lines</p>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-charcoal mb-5">Find the right line for you</h2>
+        <div class="divider"></div>
+        <p class="mt-6 text-gray-600 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+          Every cruise line has a personality. I've organized them by market tier so you can quickly find the style that fits your travel vision and budget.
+        </p>
+      </div>
+
+      <!-- Tier nav pills -->
+      <div class="flex flex-wrap justify-center gap-3 mb-14">
+        <a href="#budget" class="px-5 py-2 rounded-full text-sm font-semibold text-white tier-budget hover:opacity-90 transition">Budget / Value</a>
+        <a href="#mainstream" class="px-5 py-2 rounded-full text-sm font-semibold text-white tier-mainstream hover:opacity-90 transition">Mainstream</a>
+        <a href="#premium" class="px-5 py-2 rounded-full text-sm font-semibold text-white tier-premium hover:opacity-90 transition">Premium</a>
+        <a href="#upper" class="px-5 py-2 rounded-full text-sm font-semibold text-white tier-upper hover:opacity-90 transition">Upper Premium / Luxury</a>
+        <a href="#ultra" class="px-5 py-2 rounded-full text-sm font-semibold text-white tier-ultra hover:opacity-90 transition">Ultra-Luxury</a>
+      </div>
+
+      <!-- ── BUDGET / VALUE ─────────────────────────────────────────────── -->
+      <div id="budget" class="mb-16 scroll-mt-28">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="h-1 flex-1 rounded tier-budget opacity-30"></div>
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full tier-budget"></span>
+            <h3 class="font-serif text-2xl md:text-3xl font-bold text-brand-charcoal">Budget / Value</h3>
+          </div>
+          <div class="h-1 flex-1 rounded tier-budget opacity-30"></div>
+        </div>
+        <p class="text-gray-500 text-sm mb-8 text-center">Great choice for first-time cruisers and value-seekers looking for a fun, affordable vacation at sea.</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+          <!-- Carnival -->
+          <div class="cruise-card budget-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Carnival Cruise Line</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#B71C1C] mt-1">Budget / Value</p>
+              </div>
+              <i data-lucide="ship" class="text-[#B71C1C] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">America's most popular cruise line, known for fun, high-energy ships with non-stop entertainment, dining variety, and affordable pricing. With 27 ships, Carnival operates the largest fleet in its parent company and delivers a vacation packed with activities for all ages.</p>
+            <div class="space-y-2 text-sm">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Caribbean, Bahamas, Mexico, Alaska, Mediterranean, Europe, Transatlantic</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">First-time cruisers, families, middle-income groups seeking fun and value; households earning $60K–$110K</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Margaritaville at Sea -->
+          <div class="cruise-card budget-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Margaritaville at Sea</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#B71C1C] mt-1">Budget / Value · Lifestyle Brand</p>
+              </div>
+              <i data-lucide="ship" class="text-[#B71C1C] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">The only cruise line built around the Margaritaville lifestyle — signature cocktails, live entertainment, casual dining, and a laid-back tropical vibe. Perfect for short getaways and brand loyalists who want their vacation to start the moment they board.</p>
+            <div class="space-y-2 text-sm">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Bahamas, Caribbean (Nassau, Key West, Freeport, Aruba, Curaçao, Montego Bay, Grand Cayman). Homeports: Palm Beach, Tampa, Miami</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Adults 30–60 seeking a casual, party-friendly short getaway; Margaritaville brand fans</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── MAINSTREAM ──────────────────────────────────────────────────── -->
+      <div id="mainstream" class="mb-16 scroll-mt-28">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="h-1 flex-1 rounded tier-mainstream opacity-30"></div>
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full tier-mainstream"></span>
+            <h3 class="font-serif text-2xl md:text-3xl font-bold text-brand-charcoal">Mainstream</h3>
+          </div>
+          <div class="h-1 flex-1 rounded tier-mainstream opacity-30"></div>
+        </div>
+        <p class="text-gray-500 text-sm mb-8 text-center">The heart of the cruise industry — big ships, incredible amenities, and something for everyone. These lines offer tremendous value and variety.</p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Royal Caribbean -->
+          <div class="cruise-card mainstream-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Royal Caribbean</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#1565C0] mt-1">Mainstream · Mass Premium</p>
+              </div>
+              <i data-lucide="ship" class="text-[#1565C0] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">World's largest cruise line by capacity, famous for industry firsts: surf simulators, rock-climbing walls, sky-diving simulators, and private island destinations. "Best Cruise Line Overall" 22 consecutive years — with 30+ ships sailing to 270+ destinations worldwide.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Caribbean, Mediterranean, Alaska, Europe, Asia, Australia, South Pacific, worldwide</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Families, active travelers, adventure seekers, younger demographics (25–55) who want entertainment-packed ships</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso Partner</span>
+          </div>
+
+          <!-- Norwegian Cruise Line -->
+          <div class="cruise-card mainstream-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Norwegian Cruise Line</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#1565C0] mt-1">Mainstream · Mass Premium</p>
+              </div>
+              <i data-lucide="ship" class="text-[#1565C0] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">Pioneer of "Freestyle Cruising" — no set dining times, no dress codes, flexible scheduling. Known for multiple specialty restaurants, Broadway-caliber entertainment, and generous beverage and dining packages.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Caribbean, Bahamas, Bermuda, Alaska, Europe, Mediterranean, South America, Hawaii, Panama Canal</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Families, couples, and groups ages 35–65 who value flexibility, variety, and generous included amenities</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso Partner</span>
+          </div>
+
+          <!-- MSC Cruises -->
+          <div class="cruise-card mainstream-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">MSC Cruises</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#1565C0] mt-1">Mainstream · International Focus</p>
+              </div>
+              <i data-lucide="ship" class="text-[#1565C0] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">World's third-largest cruise line and European market leader. Modern mega-ships, multicultural atmosphere, and the exclusive MSC Yacht Club "ship-within-a-ship" concept for guests who want a premium upgrade without changing ships.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Caribbean, Mediterranean, Northern Europe, South America, South Africa, Middle East, Asia. 250+ destinations. First Alaska season 2026.</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Multigenerational families, international travelers, multicultural couples seeking European flair at sea</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso Partner</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── PREMIUM ─────────────────────────────────────────────────────── -->
+      <div id="premium" class="mb-16 scroll-mt-28">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="h-1 flex-1 rounded tier-premium opacity-30"></div>
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full tier-premium"></span>
+            <h3 class="font-serif text-2xl md:text-3xl font-bold text-brand-charcoal">Premium</h3>
+          </div>
+          <div class="h-1 flex-1 rounded tier-premium opacity-30"></div>
+        </div>
+        <p class="text-gray-500 text-sm mb-8 text-center">A step up in service, cuisine, and experience. These lines offer refined travel without the full commitment to ultra-luxury pricing.</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+          <!-- Princess -->
+          <div class="cruise-card premium-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Princess Cruises</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#2E7D32] mt-1">Premium</p>
+              </div>
+              <i data-lucide="ship" class="text-[#2E7D32] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">Made famous by The Love Boat, Princess offers immersive destination experiences, the innovative MedallionClass wearable technology, and one of the most extensive global route networks in the industry — 345+ destinations across all seven continents.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Caribbean, Alaska, Europe, Asia, Australia & New Zealand, Hawaii, Mexico, South America — all 7 continents</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Active couples and travelers 50+; multigenerational families wanting broad global reach with comfortable, refined surroundings</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso Partner</span>
+          </div>
+
+          <!-- Holland America -->
+          <div class="cruise-card premium-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Holland America Line</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#2E7D32] mt-1">Premium</p>
+              </div>
+              <i data-lucide="ship" class="text-[#2E7D32] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">A 150-year-old premium line celebrated for cultural enrichment, world-class live music programming, and Alaska expertise. Features the Culinary Arts Center (powered by America's Test Kitchen) and itineraries visiting 175 UNESCO World Heritage sites across 35 countries.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Alaska (industry leader), Europe (Mediterranean, Northern Europe, British Isles), Caribbean, World Cruises</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Adults 50+, music lovers, culinary enthusiasts, intellectually curious travelers, and world-cruise devotees</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso Partner</span>
+          </div>
+
+          <!-- Disney -->
+          <div class="cruise-card premium-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Disney Cruise Line</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#2E7D32] mt-1">Premium · Family</p>
+              </div>
+              <i data-lucide="ship" class="text-[#2E7D32] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">Disney storytelling, character experiences, and world-class entertainment on beautifully designed ships — plus adult-only spaces that make it genuinely enjoyable for parents too. Private island destinations include Castaway Cay and the new Lighthouse Point in Eleuthera (opened 2024).</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Caribbean, Bahamas (Castaway Cay, Lighthouse Point), Mexican Riviera, Alaska, Hawaii, Europe, Transatlantic — 8 ships</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Families with children, Disney fans of all ages; North American and European families who want premium, immersive family cruising</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso — $100 pp OBC on select sailings</span>
+          </div>
+
+          <!-- Virgin Voyages -->
+          <div class="cruise-card premium-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Virgin Voyages</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#2E7D32] mt-1">Premium · Adults Only · Rebellious Luxury</p>
+              </div>
+              <i data-lucide="ship" class="text-[#2E7D32] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">Adults-only (18+) cruise line disrupting the industry with hotel-like design, included specialty dining at 20+ restaurants (no buffets), wellness focus, and curated entertainment — no kids, no nickel-and-diming. Voted #1 Large Cruise Ship by Condé Nast Traveler and Travel + Leisure.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Caribbean (PortMiami), Mediterranean, Europe, North America, Transatlantic — 100+ destinations across 4 continents</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Adults 18+ who vacation without kids; Gen X travelers (avg age 48–49) with HHI $120K+ who value food, design, and wellness</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso Partner</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── UPPER PREMIUM / LUXURY ──────────────────────────────────────── -->
+      <div id="upper" class="mb-16 scroll-mt-28">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="h-1 flex-1 rounded tier-upper opacity-30"></div>
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full tier-upper"></span>
+            <h3 class="font-serif text-2xl md:text-3xl font-bold text-brand-charcoal">Upper Premium / Luxury</h3>
+          </div>
+          <div class="h-1 flex-1 rounded tier-upper opacity-30"></div>
+        </div>
+        <p class="text-gray-500 text-sm mb-8 text-center">Elevated service, smaller ships, and deeper destination immersion — without yet crossing into the all-inclusive ultra-luxury tier.</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+          <!-- Cunard -->
+          <div class="cruise-card upper-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Cunard</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#6A1B9A] mt-1">Upper Premium / Luxury · Heritage</p>
+              </div>
+              <i data-lucide="ship" class="text-[#6A1B9A] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">Britain's most storied ocean liner brand with 180+ years of maritime heritage — the only line offering regular scheduled Transatlantic crossings between New York and Southampton. Famous for White Star Service, formal evenings, ballroom dancing, and world-class lecture series aboard its iconic Queens.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Transatlantic (New York ↔ Southampton — unique scheduled service), Caribbean, Alaska, Europe, Africa, Asia, Australia, Full World Voyages</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Well-traveled British, American, and international adults 50+ who value heritage, formality, and ocean liner tradition</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso Partner</span>
+          </div>
+
+          <!-- Explora Journeys -->
+          <div class="cruise-card upper-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Explora Journeys</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#6A1B9A] mt-1">Upper Premium / Luxury · MSC Group</p>
+              </div>
+              <i data-lucide="ship" class="text-[#6A1B9A] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">MSC Group's new ultra-luxury brand (launched 2023) offers "slow luxury" ocean travel: all-suite accommodations, butler service, 9 restaurants, and a destination-immersive philosophy. Intimate ships with only 461 suites — expanding to 6 ships by 2028.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Mediterranean, Caribbean, Red Sea, Northern Europe, Iceland, Greenland, South America, Pacific Coast & Hawaii — sailings 7–44 nights</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Affluent first-time luxury cruisers and experienced luxury travelers seeking a European hotel-at-sea experience</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso — €300 suite credit + VIP embarkation</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── ULTRA-LUXURY ────────────────────────────────────────────────── -->
+      <div id="ultra" class="mb-6 scroll-mt-28">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="h-1 flex-1 rounded tier-ultra opacity-30"></div>
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full tier-ultra"></span>
+            <h3 class="font-serif text-2xl md:text-3xl font-bold text-brand-charcoal">Ultra-Luxury</h3>
+          </div>
+          <div class="h-1 flex-1 rounded tier-ultra opacity-30"></div>
+        </div>
+        <p class="text-gray-500 text-sm mb-8 text-center">The pinnacle of ocean travel — all-inclusive pricing, butler service, intimate ships, and the most exclusive itineraries on earth. This is where booking with an advisor matters most.</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+          <!-- Silversea -->
+          <div class="cruise-card ultra-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Silversea</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#E65100] mt-1">Ultra-Luxury · All-Inclusive</p>
+              </div>
+              <i data-lucide="ship" class="text-[#E65100] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">Pioneer of modern ultra-luxury cruising since 1994. All-inclusive with butler service in every suite — open bar, specialty dining, Wi-Fi, and shore excursions included. Also the leader in luxury expedition cruising, accessing Antarctica, Arctic, and the Galápagos. Part of Royal Caribbean Group since 2018.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">800+ destinations on all 7 continents — the broadest reach of any cruise line. Europe, Asia, Americas, Antarctica, Arctic, Galápagos</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Affluent travelers (HHI $250K+, avg age 59–65) who want true all-inclusive luxury, global destination depth, and expedition access</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso — Up to $600 shipboard credit per suite</span>
+          </div>
+
+          <!-- Seabourn -->
+          <div class="cruise-card ultra-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Seabourn</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#E65100] mt-1">Ultra-Luxury · Small Ship</p>
+              </div>
+              <i data-lucide="ship" class="text-[#E65100] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">Ultra-luxury small-ship line founded in 1986 that defined the high-service, intimate cruising model. All-inclusive with open bar, specialty dining, and Wi-Fi. Intimate ocean fleet (458–600 guests) plus a growing expedition division accessing Antarctica and Australia's Kimberley coast.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Mediterranean, Alaska, Caribbean, Antarctica, Northern Europe, Asia, South Pacific, South America, Chilean Fjords, Kimberley Coast</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Well-traveled adults 45+ (avg age ~60) from US, Canada, UK, Australia who seek personalized service and refined, low-key luxury</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso — $100 pp OBC + up to 40% savings</span>
+          </div>
+
+          <!-- Regent -->
+          <div class="cruise-card ultra-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Regent Seven Seas Cruises</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#E65100] mt-1">Ultra-Luxury · Most Inclusive</p>
+              </div>
+              <i data-lucide="ship" class="text-[#E65100] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">The most inclusive luxury cruise experience afloat — all-suite, all-balcony ships where virtually everything is included: business-class airfare, unlimited shore excursions, specialty dining, fine wines, Wi-Fi, gratuities, and pre-cruise hotel stay. New flagship Seven Seas Prestige debuts 2026.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">550+ destinations across 5 continents: Europe, North America, Africa, Asia, Australia & New Zealand, South America</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Ultra-high-net-worth couples and travelers who want zero nickel-and-diming and the most comprehensive inclusions in the industry</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso — Exclusive credits + free suite upgrade (2026)</span>
+          </div>
+
+          <!-- Celebrity -->
+          <div class="cruise-card ultra-card bg-white rounded-2xl p-7 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h4 class="font-serif text-xl font-bold text-brand-charcoal">Celebrity Cruises</h4>
+                <p class="text-xs font-semibold uppercase tracking-widest text-[#E65100] mt-1">Premium / Ultra-Luxury · Modern Luxury</p>
+              </div>
+              <i data-lucide="ship" class="text-[#E65100] shrink-0 mt-1" style="width:28px;height:28px"></i>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">Modern luxury cruise line celebrated for architecturally award-winning ships, Michelin-pedigreed culinary programs, and sophisticated cultural immersion. With 280+ destinations in 70+ countries, Celebrity bridges premium and luxury — delivering a genuinely upscale experience at accessible price points.</p>
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Destinations:</span>
+                <span class="text-gray-600">Alaska, Caribbean, Mexico, Panama Canal, South America, Antarctica, Mediterranean, Northern Europe, Asia, Australia & New Zealand</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="font-semibold text-brand-charcoal shrink-0">Best for:</span>
+                <span class="text-gray-600">Couples and empty nesters 35–65 who prioritize fine dining, design aesthetics, and cultural enrichment. Adult-oriented atmosphere.</span>
+              </div>
+            </div>
+            <span class="virtuoso-badge"><i data-lucide="star" style="width:12px;height:12px"></i> Virtuoso — Specialty dinner for two + $75 boutique credit</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== CTA BANNER ============================== -->
+  <section class="py-20 md:py-24 bg-brand-blue text-white text-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <i data-lucide="ship" class="mx-auto mb-6 text-white/70" style="width:48px;height:48px;stroke-width:1.5"></i>
+      <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-5">Ready to find your perfect ship?</h2>
+      <p class="text-white/85 text-lg leading-relaxed mb-8">
+        Tell me where you want to go, and I'll match you to the right cruise line, cabin category, and itinerary — with exclusive perks included at no extra cost.
+      </p>
+      <a href="index.html#plan" class="btn-primary px-10 py-4 rounded-full font-semibold inline-flex items-center gap-2 shadow-lg text-lg">
+        Plan My Cruise <i data-lucide="arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer id="contact" class="bg-brand-charcoal text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+        <!-- Brand -->
+        <div class="md:col-span-5">
+          <div class="bg-white inline-block rounded-xl p-3 mb-5">
+            <img src="images/lsg-logo.png" alt="Lonestar Getaways logo" class="h-12 w-auto" />
+          </div>
+          <p class="text-white/75 leading-relaxed max-w-md">
+            Lonestar Getaways is a Texas-based travel advisory affiliated with Fora Travel. We design personalized trips that last a lifetime — at no booking fee to you.
+          </p>
+          <p class="text-brand-sky italic mt-4 font-serif">"Journeys that last a lifetime"</p>
+        </div>
+
+        <!-- Contact -->
+        <div class="md:col-span-4">
+          <h4 class="font-serif text-lg font-semibold mb-5">Get in Touch</h4>
+          <ul class="space-y-3 text-white/85">
+            <li class="flex items-start gap-3">
+              <i data-lucide="mail" class="text-brand-sky mt-0.5 shrink-0"></i>
+              <a href="mailto:tad.preston@fora.travel" class="hover:text-white transition">tad.preston@fora.travel</a>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="phone" class="text-brand-sky mt-0.5 shrink-0"></i>
+              <a href="tel:+19728326284" class="hover:text-white transition">(972) 832-6284</a>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="user-round" class="text-brand-sky mt-0.5 shrink-0"></i>
+              <span>Tad Preston, Founder</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="briefcase" class="text-brand-sky mt-0.5 shrink-0"></i>
+              <span>Affiliated with Fora Travel</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Connect -->
+        <div class="md:col-span-3">
+          <h4 class="font-serif text-lg font-semibold mb-5">Follow Along</h4>
+          <div class="flex items-center gap-3 mb-6">
+            <a href="https://facebook.com/lonestargetaways" target="_blank" rel="noopener"
+               class="w-11 h-11 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+            </a>
+            <a href="https://instagram.com/lonestar.getaways" target="_blank" rel="noopener"
+               class="w-11 h-11 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="https://www.foratravel.com/advisor/tad-preston" target="_blank" rel="noopener"
+               class="w-11 h-11 rounded-full bg-white/10 hover:bg-brand-red flex items-center justify-center transition" aria-label="Fora profile">
+              <i data-lucide="globe-2"></i>
+            </a>
+          </div>
+          <a href="index.html#plan" class="btn-primary px-5 py-3 rounded-full font-semibold inline-flex items-center justify-center gap-2 text-sm">
+            Plan Your Trip <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="pt-7 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/55">
+        <p>&copy; <span id="year"></span> Lonestar Getaways. All rights reserved.</p>
+        <p>Travel services provided through Fora Travel, a registered seller of travel.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================== SCRIPTS ============================== -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    if (window.lucide) lucide.createIcons();
+
+    // Year
+    const yr = document.getElementById("year");
+    if (yr) yr.textContent = new Date().getFullYear();
+
+    // Nav scroll shadow
+    const nav = document.getElementById("nav");
+    window.addEventListener("scroll", () => {
+      nav.classList.toggle("nav-scrolled", window.scrollY > 10);
+    }, { passive: true });
+
+    // Mobile menu
+    const btn  = document.getElementById("menu-btn");
+    const menu = document.getElementById("mobile-menu");
+    const icon = document.getElementById("menu-icon");
+    if (btn && menu) {
+      btn.addEventListener("click", () => {
+        const open = menu.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open);
+        if (icon) icon.setAttribute("data-lucide", open ? "x" : "menu");
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+  </script>
+</body>
+</html>
